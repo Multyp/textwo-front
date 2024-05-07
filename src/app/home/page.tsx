@@ -1,6 +1,7 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,6 +13,8 @@ const Home: React.FC = () => {
   const [currentUserMail, setCurrentUserMail] = useState('');
   const [currentUserImage, setCurrentUserImage] = useState('');
   const isLoggedIn = !!localStorage.getItem('token');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -32,8 +35,44 @@ const Home: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        closeMenu();
+        closeDropdown()
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
   };
 
   const toggleMenu = () => {
@@ -49,7 +88,7 @@ const Home: React.FC = () => {
       <div className="min-h-screen flex flex-row">
         {/* Hamburger menu content */}
         {/* Sidebar for small screens */}
-        <div className={`bg-gray-600 h-screen w-64 absolute top-0 left-0 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
+        <div ref={menuRef} className={`bg-gray-600 h-screen w-64 absolute top-0 left-0 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
           <div className="ml-2 h-12 w-12 absolute items-center justify-center cursor-pointer" onClick={closeMenu}>
             <FontAwesomeIcon icon={faTimes} className="h-6 w-6 text-white" />
           </div>
@@ -61,12 +100,12 @@ const Home: React.FC = () => {
             <div className="p-4 flex items-center justify-between">
               <div className="relative w-full">
                 <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-500 w-full rounded-md p-2" onClick={toggleDropdown}>
-                  <img src={`data:image/svg+xml;base64,${currentUserImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" />
+                  <Image src={`data:image/svg+xml;base64,${currentUserImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" width={50} height={50}/>
                   <span className="text-white">{currentUserName}</span>
                 </div>
                 {/* Dropdown menu */}
                 {isDropdownOpen && (
-                  <div className="absolute right-0 top-auto bottom-full w-full bg-gray-600 border border-gray-500 border-opacity-80 rounded-md shadow-lg">
+                  <div ref={dropdownRef} className="absolute right-0 top-auto bottom-full w-full bg-gray-600 border border-gray-500 border-opacity-80 rounded-md shadow-lg">
                     <div className="py-1 justify-center">
                       {/* Email section */}
                       <div className="px-4 py-2 flex items-center justify-between">
@@ -105,12 +144,12 @@ const Home: React.FC = () => {
           <div className="p-4 flex items-center justify-between">
             <div className="relative w-full">
               <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-500 w-full rounded-md p-2" onClick={toggleDropdown}>
-                <img src={`data:image/svg+xml;base64,${currentUserImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" />
+                <Image src={`data:image/svg+xml;base64,${currentUserImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" width={50} height={50}/>
                 <span className="text-white">{currentUserName}</span>
               </div>
               {/* Dropdown menu */}
               {isDropdownOpen && (
-                <div className="absolute right-0 top-auto bottom-full mt-2 w-full bg-gray-600 border border-gray-500 border-opacity-80 rounded-md shadow-lg">
+                <div ref={dropdownRef} className="absolute right-0 top-auto bottom-full mt-2 w-full bg-gray-600 border border-gray-500 border-opacity-80 rounded-md shadow-lg">
                   <div className="py-1 justify-center">
                     {/* Email section */}
                     <div className="px-4 py-2 flex items-center justify-between">
