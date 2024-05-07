@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
@@ -19,8 +20,8 @@ export default function Home() {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <img className="block lg:hidden h-8 w-auto" src="https://miguel-dasilva.com/logo.svg" alt="Logo" />
-                <img className="hidden lg:block h-8 w-auto" src="https://miguel-dasilva.com/logo.svg" alt="Logo" />
+                <Image className="block lg:hidden h-8 w-auto" src="https://miguel-dasilva.com/logo.svg" alt="Logo" width={50} height={50}/>
+                <Image className="hidden lg:block h-8 w-auto" src="https://miguel-dasilva.com/logo.svg" alt="Logo" width={50} height={50}/>
                 <span className="text-white px-3 py-2 text-lg font-medium">TexTwo</span>
               </div>
             </div>
