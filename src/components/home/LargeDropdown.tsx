@@ -9,7 +9,7 @@ interface LargeDropdownProps {
 
 const LargeDropdown: React.FC<LargeDropdownProps> = ({ currentUserMail, dropdownRef }) => {
   return (
-    <div ref={dropdownRef} className="absolute right-0 top-auto bottom-full mt-2 w-full bg-gray-600 border border-gray-500 border-opacity-80 rounded-md shadow-lg">
+    <div ref={dropdownRef} className="absolute right-0 top-auto bottom-full my-2 w-full bg-gray-600 border border-gray-500 border-opacity-80 rounded-md shadow-lg">
       <div className="py-1 justify-center">
         <div className="px-4 py-2 flex items-center justify-between">
           <span className="text-white">{currentUserMail}</span>

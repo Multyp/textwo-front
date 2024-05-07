@@ -1,15 +1,12 @@
 "use client"
 
-/* Global imports */
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-/* Scoped imports */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-/* Local imports */
-import MobileDropdown from '@/components/home/MobileDropdown';
-import LargeDropdown from '@/components/home/LargeDropdown';
+import MobileLayout from '@/components/home/MobileLayout';
+import LargeLayout from '@/components/home/LargeLayout';
+import Welcome from '@/components/home/Welcome';
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -19,10 +16,11 @@ const Home: React.FC = () => {
   const [currentUserName, setCurrentUserName] = useState('');
   const [currentUserMail, setCurrentUserMail] = useState('');
   const [currentUserImage, setCurrentUserImage] = useState('');
+  const [currentChat, setCurrentChat] = useState(undefined);
   const isLoggedIn = !!localStorage.getItem('token');
+  const menuRef =  useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const largeDropdownRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -43,23 +41,19 @@ const Home: React.FC = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
-        setIsMobileDropdownOpen(false);
-      }
-      if (largeDropdownRef.current && !largeDropdownRef.current.contains(event.target as Node)) {
-        setIsLargeDropdownOpen(false);
-      }
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
+          setIsMobileDropdownOpen(false);
+        }
+        if (largeDropdownRef.current && !largeDropdownRef.current.contains(event.target as Node)) {
+          setIsLargeDropdownOpen(false);
+        }
+        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+          setIsMenuOpen(false);
+        }
+      };
+      document.addEventListener('mousedown', handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -105,46 +99,38 @@ const Home: React.FC = () => {
   if (isLoggedIn) {
     return (
       <div className="min-h-screen flex flex-row">
-        <div ref={menuRef} className={`bg-gray-900 h-screen w-64 absolute top-0 left-0 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
-          <div className="right-0 mt-2 h-12 w-12 absolute flex items-center justify-center cursor-pointer" onClick={closeMenu}>
-            <FontAwesomeIcon icon={faTimes} className="!h-6 w-6 text-white" />
-          </div>
-          <div className="flex flex-col justify-end h-full">
-            <div className="p-4 flex-grow">
-              Contacts
-            </div>
-            <div className="p-4 flex items-center justify-between">
-              <div className="relative w-full">
-                <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-500 w-full rounded-md p-2" onClick={toggleMobileDropdown}>
-                  <Image src={`data:image/svg+xml;base64,${currentUserImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" width={50} height={50}/>
-                  <span className="text-white">{currentUserName}</span>
-                </div>
-                {isMobileDropdownOpen && (
-                  <MobileDropdown currentUserMail={currentUserMail} closeDropdown={closeMobileDropdown} dropdownRef={mobileDropdownRef}/>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="hidden md:flex flex-col justify-end bg-gray-900 h-screen w-64">
-          <div className="p-4 flex-grow">Contacts</div>
-          <div className="p-4 flex items-center justify-between">
-            <div className="relative w-full">
-              <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-800 w-full rounded-md p-2" onClick={toggleLargeDropdown}>
-                <Image src={`data:image/svg+xml;base64,${currentUserImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" width={50} height={50}/>
-                <span className="text-white">{currentUserName}</span>
-              </div>
-              {isLargeDropdownOpen && (
-                <LargeDropdown currentUserMail={currentUserMail} dropdownRef={largeDropdownRef}/>
-              )}
-            </div>
-          </div>
-        </div>
+        <MobileLayout
+          currentUserImage={currentUserImage}
+          currentUserName={currentUserName}
+          currentUserMail={currentUserMail}
+          isMenuOpen={isMenuOpen}
+          closeMenu={closeMenu}
+          isMobileDropdownOpen={isMobileDropdownOpen}
+          closeMobileDropdown={closeMobileDropdown}
+          menuRef={menuRef}
+          mobileDropdownRef={mobileDropdownRef}
+          toggleMobileDropdown={toggleMobileDropdown}
+        />
+        <LargeLayout
+          currentUserImage={currentUserImage}
+          currentUserName={currentUserName}
+          currentUserMail={currentUserMail}
+          isMenuOpen={isMenuOpen}
+          closeMenu={closeMenu}
+          isLargeDropdownOpen={isLargeDropdownOpen}
+          closeLargeDropdown={closeLargeDropdown}
+          largeDropdownRef={largeDropdownRef}
+          toggleLargeDropdown={toggleLargeDropdown}
+        />
         <div className="flex-1 bg-gray-700 w-full">
-          <div className="h-16 w-16 flex items-center justify-center cursor-pointer md:hidden" onClick={toggleMenu}>
-            <FontAwesomeIcon icon={faBars} className="h-6 w-6 text-white" />
+          <div className={`h-16 w-16 flex items-center justify-center cursor-pointer ${isMenuOpen ? "hidden" : "absolute"} md:hidden`} onClick={toggleMenu}>
+            <FontAwesomeIcon icon={faBars} className="!h-6 w-6 text-white" />
           </div>
-          <div className="p-4 text-white">Chat Container</div>
+          {currentChat === undefined ? (
+            <Welcome />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     );
