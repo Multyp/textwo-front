@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { ToastContainer, ToastPosition, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 /* Scoped import */
@@ -12,6 +13,7 @@ import TextInput from '@/components/TextInput';
 import PasswordInput from '@/components/PasswordInput';
 
 const Login: React.FC = () => {
+  const navigation = useRouter();
   const [values, setValues] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const toastOptions = {
@@ -47,16 +49,13 @@ const Login: React.FC = () => {
         }
         if (data.status === true) {
           localStorage.setItem("token", JSON.stringify(data.user));
+          navigation.push("/home");
         }
       } catch (error) {
         console.error("Error logging in:", error);
         toast.error("An error occurred. Please try again later.", toastOptions);
       }
     }
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
   };
 
   return (

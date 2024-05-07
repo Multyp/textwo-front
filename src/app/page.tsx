@@ -31,7 +31,7 @@ export default function Home() {
                 <a href="#" className="text-gray-300 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
               </div>
               <div className="ml-4 flex items-center space-x-2 md:ml-6">
-                <a href="/login" className="text-white bg-fuchsia-600 hover:bg-fuchsia-800 px-4 py-2 rounded-md text-sm font-medium">Login</a>
+                <a href="/login" className="text-white border border-white hover:bg-white hover:text-gray-800 px-4 py-2 rounded-md text-sm font-medium">Login</a>
                 <a href="/register" className="text-white bg-fuchsia-600 hover:bg-fuchsia-800 px-4 py-2 rounded-md text-sm font-medium">Register</a>
               </div>
             </div>
@@ -51,7 +51,7 @@ export default function Home() {
               <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">FAQ</a>
             </div>
             <div className="px-2 pt-2 pb-3 space-y-2 sm:px-3">
-              <a href="/login" className="text-white bg-fuchsia-600 hover:bg-fuchsia-800 block px-3 py-2 rounded-md text-base font-medium">Login</a>
+              <a href="/login" className="text-white border border-white hover:bg-white hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">Login</a>
               <a href="/register" className="text-white bg-fuchsia-600 hover:bg-fuchsia-800 block px-3 py-2 rounded-md text-base font-medium">Register</a>
             </div>
           </div>
