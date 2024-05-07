@@ -8,7 +8,7 @@ interface PasswordInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   showPassword: boolean;
-  toggleShowPassword: () => void;
+  toggleShowPassword: (event: Event) => void;
 }
 
 const PasswordInput: React.FC<PasswordInputProps> = ({ label, id, value, onChange, showPassword, toggleShowPassword }) => {
@@ -27,7 +27,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label, id, value, onChang
         />
         <button
           className="absolute inset-y-0 right-0 pr-2 flex items-center focus:outline-none"
-          onClick={toggleShowPassword}
+          onClick={() => toggleShowPassword}
         >
           <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="h-5 w-5 text-gray-200 p-1 rounded-md hover:bg-gray-500 bg-opacity-50" />
         </button>

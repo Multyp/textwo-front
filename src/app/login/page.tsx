@@ -1,22 +1,62 @@
 "use client"
 
+/* Global imports */
 import React, { useState } from 'react';
+import axios from 'axios';
 import Image from 'next/image';
+import { ToastContainer, ToastPosition, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+/* Scoped import */
+/* Local imports */
 import TextInput from '@/components/TextInput';
 import PasswordInput from '@/components/PasswordInput';
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [values, setValues] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleLogin = () => {
-    // Perform login functionality here
-    console.log("Logging in with username:", username, "and password:", password);
+  const toastOptions = {
+    position: 'bottom-right' as ToastPosition,
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
   };
 
-  const toggleShowPassword = () => {
+  const toggleShowPassword = (event: Event) => {
+    event.preventDefault();
     setShowPassword(!showPassword);
+  };
+
+  const validateForm = () => {
+    const { username, password } = values;
+    if (username === "" || password === "") {
+      toast.error("Username and Password are required.", toastOptions);
+      return false;
+    }
+    return true;
+  };
+
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (validateForm()) {
+      const { username, password } = values;
+      try {
+        const { data } = await axios.post("https://api.textwo.app/api/auth/login", { username, password });
+        if (data.status === false) {
+          toast.error(data.msg, toastOptions);
+        }
+        if (data.status === true) {
+          localStorage.setItem("token", JSON.stringify(data.user));
+        }
+      } catch (error) {
+        console.error("Error logging in:", error);
+        toast.error("An error occurred. Please try again later.", toastOptions);
+      }
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
   };
 
   return (
@@ -28,25 +68,28 @@ const Login: React.FC = () => {
           </div>
           Textwo
         </h2>
-        <TextInput label="Username" type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <PasswordInput
-          label="Password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          showPassword={showPassword}
-          toggleShowPassword={toggleShowPassword}
-        />
-        <button
-          className="w-full bg-fuchsia-600 hover:bg-fuchsia-800 text-white py-2 rounded-md transition duration-300 ease-in-out my-4"
-          onClick={handleLogin}
-        >
-          Login
-        </button>
+        <form onSubmit={handleLogin}>
+          <TextInput label="Username" type="text" id="username" value={values.username} onChange={(e) => setValues({ username: e.target.value, password: values.password })} />
+          <PasswordInput
+            label="Password"
+            id="password"
+            value={values.password}
+            onChange={(e) => setValues({ username: values.username, password: e.target.value})}
+            showPassword={showPassword}
+            toggleShowPassword={toggleShowPassword}
+          />
+          <button
+            className="w-full bg-fuchsia-600 hover:bg-fuchsia-800 text-white py-2 rounded-md transition duration-300 ease-in-out my-4"
+            type="submit"
+          >
+            Login
+          </button>
+        </form>
         <div className="text-gray-400 text-center">
           Already have an account? <a href="/register" className="text-fuchsia-400">Register here</a>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
