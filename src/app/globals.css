@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -26,8 +29,31 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+body,
+button,
+input {
+  font-family: "Poppins", sans-serif; /* Use Poppins font by default */
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@supports (font-family: "Poppins") {
+  body,
+  button,
+  input {
+    font-family: "Poppins", sans-serif;
+  }
+}
+
+/* If neither Poppins nor Montserrat is available, use sans-serif */
+@supports (not (font-family: "Poppins")) and (not (font-family: "Montserrat")) {
+  body,
+  button,
+  input {
+    font-family: sans-serif;
   }
 }
