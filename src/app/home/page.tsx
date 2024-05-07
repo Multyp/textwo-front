@@ -1,7 +1,10 @@
 "use client"
+
+/* Global imports */
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+/* Scoped imports */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 

@@ -1,9 +1,12 @@
 "use client"
 
+/* Global imports */
 import { useState } from 'react';
 import Image from 'next/image';
+/* Scoped imports */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+/* Local imports */
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
