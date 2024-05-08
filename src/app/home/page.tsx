@@ -102,6 +102,7 @@ const Home: React.FC = () => {
     return (
       <div className="min-h-screen flex flex-row">
         <MobileLayout
+          currentUserId={currentUserId}
           currentUserImage={currentUserImage}
           currentUserName={currentUserName}
           currentUserMail={currentUserMail}
