@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import MobileLayout from '@/components/home/MobileLayout';
 import LargeLayout from '@/components/home/LargeLayout';
 import Welcome from '@/components/home/Welcome';
@@ -16,6 +16,7 @@ const Home: React.FC = () => {
   const [currentUserName, setCurrentUserName] = useState('');
   const [currentUserMail, setCurrentUserMail] = useState('');
   const [currentUserImage, setCurrentUserImage] = useState('');
+  const [currentUserId, setCurrentUserId] = useState('');
   const [currentChat, setCurrentChat] = useState(undefined);
   const isLoggedIn = !!localStorage.getItem('token');
   const menuRef =  useRef<HTMLDivElement>(null);
@@ -35,6 +36,7 @@ const Home: React.FC = () => {
         setCurrentUserName(data.username);
         setCurrentUserMail(data.email);
         setCurrentUserImage(data.avatarImage);
+        setCurrentUserId(data._id);
       }
     }
 
@@ -112,6 +114,7 @@ const Home: React.FC = () => {
           toggleMobileDropdown={toggleMobileDropdown}
         />
         <LargeLayout
+          currentUserId={currentUserId}
           currentUserImage={currentUserImage}
           currentUserName={currentUserName}
           currentUserMail={currentUserMail}
