@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 /* Local imports */
 import TextInput from '@/components/TextInput';
 import PasswordInput from '@/components/PasswordInput';
+import { loginRoute } from '@/utils/ApiRoutes';
 
 const Login: React.FC = () => {
   const navigation = useRouter();
@@ -43,7 +44,7 @@ const Login: React.FC = () => {
     if (validateForm()) {
       const { username, password } = values;
       try {
-        const { data } = await axios.post("https://api.textwo.app/api/auth/login", { username, password });
+        const { data } = await axios.post(`${loginRoute}`, { username, password });
         if (data.status === false) {
           toast.error(data.msg, toastOptions);
         }

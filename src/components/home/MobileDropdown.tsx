@@ -1,6 +1,9 @@
+/* Global import */
 import React from 'react';
+/* Scoped import */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+/* Local imports */
 
 interface MobileDropdownProps {
   currentUserMail: string;

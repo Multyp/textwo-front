@@ -1,6 +1,9 @@
+/* Global import */
 import React from 'react';
+/* Scoped import */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+/* Local import */
 
 interface PasswordInputProps {
   label: string;

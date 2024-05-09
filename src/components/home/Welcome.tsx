@@ -1,5 +1,8 @@
+/* Global import */
 import React, { useState, useEffect } from "react";
 import Image from 'next/image';
+/* Scoped import */
+/* Local import */
 import Robot from "@/assets/robot.gif";
 
 export default function Welcome() {

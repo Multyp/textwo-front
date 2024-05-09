@@ -1,4 +1,7 @@
+/* Global import */
 import React from 'react';
+/* Scoped import */
+/* Local import */
 
 interface TextInputProps {
   label: string;

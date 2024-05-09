@@ -1,10 +1,14 @@
 "use client"
 
+/* Global import */
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+/* Scoped import */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+/* Local imports */
 import MobileDropdown from '@/components/home/MobileDropdown';
+import { getUsersRoute } from '@/utils/ApiRoutes';
 
 interface User {
   _id: string;
@@ -45,7 +49,7 @@ const MobileLayout: React.FC<Props> = ({
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(`https://api.textwo.app/api/auth/allusers/${currentUserId}`);
+        const response = await fetch(`${getUsersRoute}/${currentUserId}`);
         const data = await response.json();
         setUsers(data);
       } catch (error) {
