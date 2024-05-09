@@ -7,9 +7,12 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import MobileLayout from '@/components/home/MobileLayout';
 import LargeLayout from '@/components/home/LargeLayout';
 import Welcome from '@/components/home/Welcome';
+import { io } from "socket.io-client";
+import ChatContainer from '@/components/home/ChatContainer';
 
 const Home: React.FC = () => {
   const router = useRouter();
+  const socket = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const [isLargeDropdownOpen, setIsLargeDropdownOpen] = useState(false);
@@ -17,7 +20,7 @@ const Home: React.FC = () => {
   const [currentUserMail, setCurrentUserMail] = useState('');
   const [currentUserImage, setCurrentUserImage] = useState('');
   const [currentUserId, setCurrentUserId] = useState('');
-  const [currentChat, setCurrentChat] = useState(undefined);
+  const [currentChat, setCurrentChat] = useState<string | undefined>(undefined);
   const isLoggedIn = !!localStorage.getItem('token');
   const menuRef =  useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
@@ -74,6 +77,14 @@ const Home: React.FC = () => {
     };
   }, []);
 
+
+  useEffect(() => {
+    if (currentUserId) {
+      socket.current = io("https://api.textwo.app");
+      socket.current.emit("add-user", currentUserId);
+    }
+  }, [currentUserId]);
+
   const toggleMobileDropdown = () => {
     setIsMobileDropdownOpen(!isMobileDropdownOpen);
   };
@@ -125,6 +136,8 @@ const Home: React.FC = () => {
           closeLargeDropdown={closeLargeDropdown}
           largeDropdownRef={largeDropdownRef}
           toggleLargeDropdown={toggleLargeDropdown}
+          currentChat={currentChat}
+          setCurrentChat={setCurrentChat}
         />
         <div className="flex-1 bg-gray-700 w-full">
           <div className={`h-16 w-16 flex items-center justify-center cursor-pointer ${isMenuOpen ? "hidden" : "absolute"} md:hidden`} onClick={toggleMenu}>
@@ -133,7 +146,7 @@ const Home: React.FC = () => {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-            <></>
+            <ChatContainer currentChat={currentChat} socket={socket} />
           )}
         </div>
       </div>

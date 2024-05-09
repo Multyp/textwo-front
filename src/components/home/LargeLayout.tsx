@@ -26,6 +26,8 @@ interface Props {
   closeLargeDropdown: () => void;
   largeDropdownRef: React.RefObject<HTMLDivElement>;
   toggleLargeDropdown: () => void;
+  setCurrentChat: (user: string) => void;
+  currentChat: string | undefined;
 }
 
 const LargeLayout: React.FC<Props> = ({
@@ -39,6 +41,8 @@ const LargeLayout: React.FC<Props> = ({
   closeLargeDropdown,
   largeDropdownRef,
   toggleLargeDropdown,
+  currentChat,
+  setCurrentChat,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
 
@@ -55,11 +59,18 @@ const LargeLayout: React.FC<Props> = ({
     fetchUsers();
   });
 
+  const handleUserClick = (user: User) => {
+    if (user._id !== currentChat) {
+      setCurrentChat(user._id);
+      console.log(user._id);
+    }
+  };
+
   return (
     <div className="hidden md:flex flex-col justify-end bg-gray-900 h-screen w-64">
       <div className="p-4 flex-grow">
       {users.map(user => (
-          <div key={user._id} className="hover:bg-gray-800 p-2 cursor-pointer rounded-md flex items-center">
+          <div key={user._id} className="hover:bg-gray-800 p-2 cursor-pointer rounded-md flex items-center" onClick={() => handleUserClick(user)}>
             <Image src={`data:image/svg+xml;base64,${user.avatarImage}`} alt={`${user.username}'s Avatar`} className="w-10 h-10 rounded-full" width={50} height={50}/>
             <span className="text-white ml-2">{user.username}</span>
           </div>

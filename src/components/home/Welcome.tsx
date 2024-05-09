@@ -20,7 +20,7 @@ export default function Welcome() {
   }, []);
   return (
     <div className="flex flex-col items-center justify-center text-white w-full h-full">
-      <Image src={Robot} alt="Robot picture"/>
+      <Image src={Robot} alt="Robot picture" unoptimized/>
       <h1>
         Welcome, <span className="text-fuchsia-400">{userName}!</span>
       </h1>
