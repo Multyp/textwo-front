@@ -72,8 +72,8 @@ export default function ChatContainer({ currentChat, socket }: { currentChat: st
   }, [messages]);
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
-      <div className="px-8 py-4 flex justify-center items-center text-gray-200">
+    <div className="flex flex-col h-full max-h-screen">
+      <div className="px-8 py-4 flex justify-center items-center text-gray-200 border-b-2 border-gray-500">
         Your chat
       </div>
       <div className="px-8 py-4 flex-grow justify-end overflow-scroll">
@@ -90,7 +90,7 @@ export default function ChatContainer({ currentChat, socket }: { currentChat: st
         ))}
         <div ref={scrollRef}></div>
       </div>
-      <div className="px-8 py-4">
+      <div className="px-8 py-4 border-t-2 border-gray-500">
         <div className="flex items-center space-x-4">
           <input
             type="text"

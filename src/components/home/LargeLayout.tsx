@@ -55,7 +55,7 @@ const LargeLayout: React.FC<Props> = ({
   };
 
   return (
-    <div className="hidden md:flex flex-col justify-end bg-gray-900 h-screen w-64">
+    <div className="hidden md:flex flex-col justify-end bg-gray-900 h-screen w-64 border-r-2 border-gray-500">
       <div className="p-4 flex-grow">
         {users.map(user => (
           <div key={user._id} className="hover:bg-gray-800 p-2 cursor-pointer rounded-md flex items-center" onClick={() => handleUserClick(user)}>

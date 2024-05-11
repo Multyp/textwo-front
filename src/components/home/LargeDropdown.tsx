@@ -63,21 +63,21 @@ const LargeDropdown: React.FC<LargeDropdownProps> = ({ currentUserMail, dropdown
 
   return (
     <div ref={dropdownRef} className="absolute right-0 top-auto bottom-full my-2 bg-gray-600 border border-gray-500 border-opacity-80 rounded-md shadow-lg">
-      <div className="p-1 justify-center items-center">
-        <div className="px-4 py-2 flex items-center justify-center w-full">
+      <div className="p-2 justify-center items-center">
+        <div className="px-2 py-1 flex items-center justify-center w-full">
           <span className="text-white">{currentUserMail}</span>
         </div>
-        <div className="flex w-full justify-center items-center">
-          <div className="border-t border-gray-500 w-11/12"/>
+        <div className="flex w-full py-1 justify-center items-center">
+          <div className="border-t border-gray-500 w-full"/>
         </div>
-        <div className="px-4 py-2 flex items-center w-full">
+        <div className="pl-3 py-2 flex items-center w-full">
           <FontAwesomeIcon icon={faCog} className="h-5 w-5 text-white cursor-pointer mr-2" />
           <span className="text-white">Settings</span>
         </div>
-        <div className="flex w-full justify-center items-center my-1">
-          <div className="border-t border-gray-500 w-11/12"/>
+        <div className="flex w-full py-1 justify-center items-center my-1">
+          <div className="border-t border-gray-500 w-full"/>
         </div>
-        <div className="px-4 py-2 flex items-center hover:bg-gray-500 rounded-md w-full" onClick={handleLogout}>
+        <div className="pl-3 py-2 flex items-center hover:bg-gray-500 rounded-md w-full" onClick={handleLogout}>
           <FontAwesomeIcon icon={faSignOutAlt} className="h-5 w-5 text-white cursor-pointer mr-2" />
           <button className="text-white">Logout</button>
         </div>
