@@ -32,10 +32,25 @@ export default function ChatContainer({ currentChat, socket }) {
     getCurrentChat();
   }, [currentChat]);
 
-  const handleSendMsg = async () => {
-    // Your sending message logic here
-    console.log('Message sent:', inputMessage);
-    setInputMessage(''); // Clear input after sending
+  const handleSendMsg = async (msg: string) => {
+    const data = await JSON.parse(
+      localStorage.getItem("token") as string
+    );
+    socket.current.emit("send-msg", {
+      to: currentChat,
+      from: data._id,
+      msg,
+    });
+    await axios.post(sendMessageRoute, {
+      from: data._id,
+      to: currentChat,
+      message: msg,
+    });
+
+    const msgs = [...messages];
+    msgs.push({ fromSelf: true, message: msg });
+    setMessages(msgs);
+    setInputMessage('');
   };
 
   useEffect(() => {
@@ -82,7 +97,7 @@ export default function ChatContainer({ currentChat, socket }) {
             className="border border-gray-300 rounded-md px-3 py-2 w-full"
           />
           <button
-            onClick={handleSendMsg}
+            onClick={() => handleSendMsg(inputMessage)}
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
           >
             Send
