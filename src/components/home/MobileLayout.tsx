@@ -9,19 +9,10 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 /* Local imports */
 import MobileDropdown from '@/components/home/MobileDropdown';
 import { getUsersRoute } from '@/utils/ApiRoutes';
-
-interface User {
-  _id: string;
-  username: string;
-  email: string;
-  avatarImage: string;
-}
+import User from '@/types/User';
 
 interface Props {
-  currentUserId: string,
-  currentUserImage: string;
-  currentUserName: string;
-  currentUserMail: string;
+  currentUser: User;
   isMenuOpen: boolean;
   closeMenu: () => void;
   isMobileDropdownOpen: boolean;
@@ -32,16 +23,13 @@ interface Props {
 }
 
 const MobileLayout: React.FC<Props> = ({
-  currentUserId,
-  currentUserImage,
-  currentUserName,
-  currentUserMail,
+  currentUser,
   isMenuOpen,
-  menuRef,
   closeMenu,
   isMobileDropdownOpen,
   closeMobileDropdown,
   mobileDropdownRef,
+  menuRef,
   toggleMobileDropdown,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
@@ -49,7 +37,7 @@ const MobileLayout: React.FC<Props> = ({
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(`${getUsersRoute}/${currentUserId}`);
+        const response = await fetch(`${getUsersRoute}/${currentUser._id}`);
         const data = await response.json();
         setUsers(data);
       } catch (error) {
@@ -57,7 +45,7 @@ const MobileLayout: React.FC<Props> = ({
       }
     };
     fetchUsers();
-  });
+  }, [currentUser._id]);
 
   return (
     <div ref={menuRef} className={`bg-gray-900 h-screen w-64 absolute top-0 left-0 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
@@ -80,11 +68,11 @@ const MobileLayout: React.FC<Props> = ({
         <div className="p-4 flex items-center justify-between">
           <div className="relative w-full">
             <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-500 w-full rounded-md p-2" onClick={toggleMobileDropdown}>
-              <Image src={`data:image/svg+xml;base64,${currentUserImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" width={50} height={50}/>
-              <span className="text-white">{currentUserName}</span>
+              <Image src={`data:image/svg+xml;base64,${currentUser.avatarImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" width={50} height={50}/>
+              <span className="text-white">{currentUser.username}</span>
             </div>
             {isMobileDropdownOpen && (
-              <MobileDropdown currentUserMail={currentUserMail} closeDropdown={closeMobileDropdown} dropdownRef={mobileDropdownRef}/>
+              <MobileDropdown currentUserMail={currentUser.email} closeDropdown={closeMobileDropdown} dropdownRef={mobileDropdownRef}/>
             )}
           </div>
         </div>

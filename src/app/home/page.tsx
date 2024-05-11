@@ -1,28 +1,31 @@
 "use client"
 
+/* Global imports */
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { BeatLoader } from 'react-spinners';
+import { Socket, io } from "socket.io-client";
+/* Scoped imports */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+/* Local imports */
 import MobileLayout from '@/components/home/MobileLayout';
 import LargeLayout from '@/components/home/LargeLayout';
 import Welcome from '@/components/home/Welcome';
-import { io } from "socket.io-client";
 import ChatContainer from '@/components/home/ChatContainer';
+import User from '@/types/User';
 
 const Home: React.FC = () => {
   const router = useRouter();
-  const socket = useRef();
+  const socket = useRef<Socket | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const [isLargeDropdownOpen, setIsLargeDropdownOpen] = useState(false);
-  const [currentUserName, setCurrentUserName] = useState('');
-  const [currentUserMail, setCurrentUserMail] = useState('');
-  const [currentUserImage, setCurrentUserImage] = useState('');
-  const [currentUserId, setCurrentUserId] = useState('');
+  const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const [currentChat, setCurrentChat] = useState<string | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   const isLoggedIn = !!localStorage.getItem('token');
-  const menuRef =  useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const largeDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -34,31 +37,33 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await JSON.parse(localStorage.getItem("token") as string);
+      const data = await JSON.parse(localStorage.getItem("token") as string) as User;
       if (data) {
-        setCurrentUserName(data.username);
-        setCurrentUserMail(data.email);
-        setCurrentUserImage(data.avatarImage);
-        setCurrentUserId(data._id);
+        setCurrentUser(data);
+        setIsLoading(false);
       }
     }
 
     fetchData();
   }, []);
 
-    useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
-          setIsMobileDropdownOpen(false);
-        }
-        if (largeDropdownRef.current && !largeDropdownRef.current.contains(event.target as Node)) {
-          setIsLargeDropdownOpen(false);
-        }
-        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-          setIsMenuOpen(false);
-        }
-      };
-      document.addEventListener('mousedown', handleClickOutside);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
+        setIsMobileDropdownOpen(false);
+      }
+      if (largeDropdownRef.current && !largeDropdownRef.current.contains(event.target as Node)) {
+        setIsLargeDropdownOpen(false);
+      }
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   useEffect(() => {
@@ -77,13 +82,12 @@ const Home: React.FC = () => {
     };
   }, []);
 
-
   useEffect(() => {
-    if (currentUserId) {
+    if (currentUser?._id) {
       socket.current = io("https://api.textwo.app");
-      socket.current.emit("add-user", currentUserId);
+      socket.current.emit("add-user", currentUser._id);
     }
-  }, [currentUserId]);
+  }, [currentUser]);
 
   const toggleMobileDropdown = () => {
     setIsMobileDropdownOpen(!isMobileDropdownOpen);
@@ -109,14 +113,19 @@ const Home: React.FC = () => {
     setIsMenuOpen(false);
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <BeatLoader color="#4A90E2" loading={isLoading} size={20} />
+      </div>
+    );
+  }
+
   if (isLoggedIn) {
     return (
       <div className="min-h-screen flex flex-row">
         <MobileLayout
-          currentUserId={currentUserId}
-          currentUserImage={currentUserImage}
-          currentUserName={currentUserName}
-          currentUserMail={currentUserMail}
+          currentUser={currentUser as User}
           isMenuOpen={isMenuOpen}
           closeMenu={closeMenu}
           isMobileDropdownOpen={isMobileDropdownOpen}
@@ -126,10 +135,7 @@ const Home: React.FC = () => {
           toggleMobileDropdown={toggleMobileDropdown}
         />
         <LargeLayout
-          currentUserId={currentUserId}
-          currentUserImage={currentUserImage}
-          currentUserName={currentUserName}
-          currentUserMail={currentUserMail}
+          currentUser={currentUser as User}
           isMenuOpen={isMenuOpen}
           closeMenu={closeMenu}
           isLargeDropdownOpen={isLargeDropdownOpen}
