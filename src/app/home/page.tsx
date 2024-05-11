@@ -17,7 +17,7 @@ import User from '@/types/User';
 
 const Home: React.FC = () => {
   const router = useRouter();
-  const socket = useRef<Socket | null>(null);
+  const socket = useRef<Socket| null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const [isLargeDropdownOpen, setIsLargeDropdownOpen] = useState(false);
@@ -152,7 +152,7 @@ const Home: React.FC = () => {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-            <ChatContainer currentChat={currentChat} socket={socket} />
+            <ChatContainer currentChat={currentChat} socket={socket as any} />
           )}
         </div>
       </div>

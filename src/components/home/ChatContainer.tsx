@@ -4,11 +4,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import { sendMessageRoute, recieveMessageRoute } from '@/utils/ApiRoutes';
+import { Socket } from 'socket.io-client';
+import Msg from '@/types/Messages';
 
-export default function ChatContainer({ currentChat, socket }) {
-  const [messages, setMessages] = useState([]);
-  const scrollRef = useRef();
-  const [arrivalMessage, setArrivalMessage] = useState(null);
+export default function ChatContainer({ currentChat, socket }: { currentChat: string, socket: Socket }) {
+  const [messages, setMessages] = useState<Msg[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [arrivalMessage, setArrivalMessage] = useState<Msg | null>(null);
   const [inputMessage, setInputMessage] = useState('');
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export default function ChatContainer({ currentChat, socket }) {
     const data = await JSON.parse(
       localStorage.getItem("token") as string
     );
-    socket.current.emit("send-msg", {
+    socket.emit("send-msg", {
       to: currentChat,
       from: data._id,
       msg,
@@ -59,7 +61,7 @@ export default function ChatContainer({ currentChat, socket }) {
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);

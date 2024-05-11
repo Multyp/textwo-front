@@ -25,7 +25,7 @@ const Login: React.FC = () => {
     theme: "dark",
   };
 
-  const toggleShowPassword = (event: Event) => {
+  const toggleShowPassword = (event: React.MouseEvent) => {
     event.preventDefault();
     setShowPassword(!showPassword);
   };
