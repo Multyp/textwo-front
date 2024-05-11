@@ -9,6 +9,7 @@ export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [inputMessage, setInputMessage] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,21 +32,10 @@ export default function ChatContainer({ currentChat, socket }) {
     getCurrentChat();
   }, [currentChat]);
 
-  const handleSendMsg = async (msg: string) => {
-    const data = await JSON.parse(localStorage.getItem("token") as string);
-    socket.current.emit('send-msg', {
-      to: currentChat._id,
-      from: data._id,
-      msg,
-    });
-    await axios.post(sendMessageRoute, {
-      from: data._id,
-      to: currentChat._id,
-      message: msg,
-    });
-
-    const updatedMessages = [...messages, { fromSelf: true, message: msg }];
-    setMessages(updatedMessages);
+  const handleSendMsg = async () => {
+    // Your sending message logic here
+    console.log('Message sent:', inputMessage);
+    setInputMessage(''); // Clear input after sending
   };
 
   useEffect(() => {
@@ -65,27 +55,40 @@ export default function ChatContainer({ currentChat, socket }) {
   }, [messages]);
 
   return (
-    <div className="grid grid-rows-3 h-full overflow-hidden">
-      <div className="flex justify-between items-center px-8 py-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full overflow-hidden">
-            <img src={`data:image/svg+xml;base64,${currentChat.avatarImage}`} alt="" />
-          </div>
-          <div className="text-white">
-            <h3>{currentChat.username}</h3>
-          </div>
-        </div>
-        <></>
+    <div className="flex flex-col h-full overflow-hidden">
+      <div className="px-8 py-4 flex justify-center items-center text-gray-200">
+        Your chat
       </div>
-      <div className="px-8 py-4 overflow-auto">
+      <div className="px-8 py-4 flex-grow justify-end overflow-scroll">
         {messages.map((message) => (
-          <div key={uuidv4()} className={`message ${message.fromSelf ? 'sended' : 'received'}`}>
-            <div className="content">{message.message}</div>
+          <div
+            key={uuidv4()}
+            className={`message flex items-center py-2 ${message.fromSelf ? 'justify-end' : 'justify-start'}`}
+          >
+            <div className={`content p-3 rounded-xl ${message.fromSelf ? 'bg-blue-400 text-white' : 'bg-gray-200 text-gray-800'}`}>
+              {message.message}
+            </div>
           </div>
         ))}
         <div ref={scrollRef}></div>
       </div>
-      <></>
+      <div className="px-8 py-4">
+        <div className="flex items-center space-x-4">
+          <input
+            type="text"
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            placeholder="Type your message..."
+            className="border border-gray-300 rounded-md px-3 py-2 w-full"
+          />
+          <button
+            onClick={handleSendMsg}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+          >
+            Send
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
