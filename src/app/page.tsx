@@ -8,6 +8,44 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 /* Local imports */
 
+const DevelopmentBar = () => {
+  return (
+    <div className="bg-yellow-400 text-gray-900 py-2 text-center">
+      <p className="text-sm">
+        This app is still in development. Some features may not be fully functional yet.
+      </p>
+    </div>
+  );
+};
+
+const DeveloperSection = () => {
+  return (
+    <section className="bg-gray-200 py-16">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex flex-col items-center">
+          <h2 className="text-3xl font-semibold text-gray-800 mb-4">About the Developer</h2>
+          <div className="flex flex-col md:flex-row items-center">
+            <div className="md:w-1/3 mb-4 md:mb-0">
+              <Image
+                src="/Miguel.jpg"
+                alt="Miguel Da Silva"
+                width={512}
+                height={512}
+                className="rounded-full w-80 h-80"
+              />
+            </div>
+            <div className="md:w-2/3">
+              <p className="text-base text-gray-700">
+                I{"'"}m Miguel Da Silva, the main developer behind TexTwo. With a passion for coding and a drive to create innovative solutions, I strive to deliver the best user experience possible.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -46,6 +84,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Development Announcement Bar */}
+        <DevelopmentBar />
+
         {/* Responsive Navbar */}
         {isMenuOpen && (
           <div className="md:hidden" id="mobile-menu">
@@ -64,29 +106,30 @@ export default function Home() {
 
       <main className="bg-gray-100 min-h-screen w-full">
         {/* Hero Section */}
-        <section className="flex flex-col items-center justify-evenly py-16 lg:flex-row">
+        <section className="flex flex-col flex-grow items-center justify-evenly py-16 lg:flex-row">
           <div className="flex flex-col items-center mb-8 lg:mb-0 lg:w-1/3 lg:max-w-sm">
             {/* SVG Illustration 1 */}
-            <img src="/undraw_chatting_re_j55r.svg" alt="Feature 1" className="w-48 h-48 lg:w-64 lg:h-64 mb-2" />
-            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Feature 1</h2>
-            <p className="text-base lg:text-lg text-gray-600">Description of Feature 1</p>
+            <Image src="/undraw_chatting_re_j55r.svg" alt="Feature 1 - Messaging" className="w-48 h-48 lg:w-64 lg:h-64 mb-2" width={0} height={0} />
+            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Messaging</h2>
+            <p className="text-base lg:text-lg text-gray-600">Message anyone you want, from anywhere. Create your account now and talk with your friends !</p>
           </div>
           <div className="flex flex-col items-center mb-8 lg:mb-0 lg:w-1/3 lg:max-w-sm">
             {/* SVG Illustration 2 */}
-            <img src="/undraw_chatting_re_j55r.svg" alt="Feature 2" className="w-48 h-48 lg:w-64 lg:h-64 mb-2" />
-            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Feature 2</h2>
-            <p className="text-base lg:text-lg text-gray-600">Description of Feature 2</p>
+            <Image src="/undraw_secure_login_pdn4.svg" alt="Feature 2 - Security" className="w-48 h-48 lg:w-64 lg:h-64 mb-2"  width={0} height={0} />
+            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Security</h2>
+            <p className="text-base lg:text-lg text-gray-600">At textwo, our main focus is security. Your messages are encrypted end-to end, ensuring nobody can steal your data !</p>
           </div>
           <div className="flex flex-col items-center mb-8 lg:mb-0 lg:w-1/3 lg:max-w-sm">
             {/* SVG Illustration 3 */}
-            <img src="/undraw_chatting_re_j55r.svg" alt="Feature 3" className="w-48 h-48 lg:w-64 lg:h-64 mb-2" />
-            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Feature 3</h2>
-            <p className="text-base lg:text-lg text-gray-600">Description of Feature 3</p>
+            <Image src="/undraw_real_time_collaboration_c62i.svg" alt="Feature 3 - Real time" className="w-48 h-48 lg:w-64 lg:h-64 mb-2"  width={0} height={0} />
+            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Real time</h2>
+            <p className="text-base lg:text-lg text-gray-600">You send annd receive messages in real time, no need to refresh your page. Just send your text and wait for the answer !</p>
           </div>
         </section>
+
+        {/* Developer Section */}
+        <DeveloperSection />
       </main>
-
-
 
       {/* Footer */}
       <footer className="bg-gray-800 w-full py-8">
