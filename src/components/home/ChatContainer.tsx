@@ -80,7 +80,8 @@ export default function ChatContainer({ currentChat, socket }) {
             key={uuidv4()}
             className={`message flex items-center py-2 ${message.fromSelf ? 'justify-end' : 'justify-start'}`}
           >
-            <div className={`content p-3 rounded-xl ${message.fromSelf ? 'bg-blue-400 text-white' : 'bg-gray-200 text-gray-800'}`}>
+            <div className={`content p-3 rounded-xl max-w-lg
+             ${message.fromSelf ? 'bg-blue-400 text-white' : 'bg-gray-200 text-gray-800'}`}>
               {message.message}
             </div>
           </div>
