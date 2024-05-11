@@ -1,7 +1,7 @@
 "use client"
 
 /* Global imports */
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 /* Scoped imports */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -62,17 +62,39 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Main Content */}
-      <main className="bg-gray-100 min-h-screen">
-        {/* Your existing content here */}
+      <main className="bg-gray-100 min-h-screen w-full">
+        {/* Hero Section */}
+        <section className="flex flex-col items-center justify-evenly py-16 lg:flex-row">
+          <div className="flex flex-col items-center mb-8 lg:mb-0 lg:w-1/3 lg:max-w-sm">
+            {/* SVG Illustration 1 */}
+            <img src="/undraw_chatting_re_j55r.svg" alt="Feature 1" className="w-48 h-48 lg:w-64 lg:h-64 mb-2" />
+            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Feature 1</h2>
+            <p className="text-base lg:text-lg text-gray-600">Description of Feature 1</p>
+          </div>
+          <div className="flex flex-col items-center mb-8 lg:mb-0 lg:w-1/3 lg:max-w-sm">
+            {/* SVG Illustration 2 */}
+            <img src="/undraw_chatting_re_j55r.svg" alt="Feature 2" className="w-48 h-48 lg:w-64 lg:h-64 mb-2" />
+            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Feature 2</h2>
+            <p className="text-base lg:text-lg text-gray-600">Description of Feature 2</p>
+          </div>
+          <div className="flex flex-col items-center mb-8 lg:mb-0 lg:w-1/3 lg:max-w-sm">
+            {/* SVG Illustration 3 */}
+            <img src="/undraw_chatting_re_j55r.svg" alt="Feature 3" className="w-48 h-48 lg:w-64 lg:h-64 mb-2" />
+            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Feature 3</h2>
+            <p className="text-base lg:text-lg text-gray-600">Description of Feature 3</p>
+          </div>
+        </section>
       </main>
+
+
 
       {/* Footer */}
       <footer className="bg-gray-800 w-full py-8">
         <div className="max-w-7xl mx-auto px-4">
-          <p className="text-center text-gray-300 text-sm">&copy; 2024 TexTwo. All rights reserved.</p>
+          <p className="text-center text-gray-300 text-sm">&copy; 2024 TexTwo. All rights reserved. Illustrations by <a href="https://undraw.co/" className=" text-fuchsia-500 hover:text-fuchsia-300">Undraw</a>.</p>
         </div>
       </footer>
+
     </div>
   );
 }
