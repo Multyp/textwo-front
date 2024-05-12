@@ -133,6 +133,8 @@ const Home: React.FC = () => {
           menuRef={menuRef}
           mobileDropdownRef={mobileDropdownRef}
           toggleMobileDropdown={toggleMobileDropdown}
+          currentChat={currentChat}
+          setCurrentChat={setCurrentChat}
         />
         <LargeLayout
           currentUser={currentUser as User}

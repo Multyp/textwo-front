@@ -20,6 +20,8 @@ interface Props {
   mobileDropdownRef: React.RefObject<HTMLDivElement>;
   menuRef: React.RefObject<HTMLDivElement>;
   toggleMobileDropdown: () => void;
+  setCurrentChat: (user: string) => void;
+  currentChat: string | undefined;
 }
 
 const MobileLayout: React.FC<Props> = ({
@@ -31,6 +33,8 @@ const MobileLayout: React.FC<Props> = ({
   mobileDropdownRef,
   menuRef,
   toggleMobileDropdown,
+  setCurrentChat,
+  currentChat,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
 
@@ -47,6 +51,12 @@ const MobileLayout: React.FC<Props> = ({
     fetchUsers();
   }, [currentUser._id]);
 
+  const handleUserClick = (user: User) => {
+    if (user._id !== currentChat) {
+      setCurrentChat(user._id);
+    }
+  };
+
   return (
     <div ref={menuRef} className={`bg-gray-900 h-screen w-64 absolute top-0 left-0 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
       <div className="flex flex-col justify-end h-full">
@@ -56,7 +66,7 @@ const MobileLayout: React.FC<Props> = ({
         </div>
         <div className="p-4 flex-grow">
           {users.map(user => (
-            <div key={user._id} className="hover:bg-gray-800 p-2 cursor-pointer rounded-md flex items-center">
+            <div key={user._id} className="hover:bg-gray-800 p-2 cursor-pointer rounded-md flex items-center" onClick={() => handleUserClick(user)}>
               <Image src={`data:image/svg+xml;base64,${user.avatarImage}`} alt={`${user.username}'s Avatar`} className="w-10 h-10 rounded-full" width={50} height={50}/>
               <span className="text-white ml-2">{user.username}</span>
             </div>
