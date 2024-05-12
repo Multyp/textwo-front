@@ -136,10 +136,7 @@ const Home: React.FC = () => {
         />
         <LargeLayout
           currentUser={currentUser as User}
-          isMenuOpen={isMenuOpen}
-          closeMenu={closeMenu}
           isLargeDropdownOpen={isLargeDropdownOpen}
-          closeLargeDropdown={closeLargeDropdown}
           largeDropdownRef={largeDropdownRef}
           toggleLargeDropdown={toggleLargeDropdown}
           currentChat={currentChat}

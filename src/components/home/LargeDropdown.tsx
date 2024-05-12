@@ -62,7 +62,7 @@ const LargeDropdown: React.FC<LargeDropdownProps> = ({ currentUserMail, dropdown
   };
 
   return (
-    <div ref={dropdownRef} className="absolute right-0 top-auto bottom-full my-2 bg-gray-600 border border-gray-500 border-opacity-80 rounded-md shadow-lg">
+    <div ref={dropdownRef} className="absolute right-0 top-auto bottom-full my-4 bg-gray-600 border border-gray-500 border-opacity-80 rounded-md shadow-lg">
       <div className="p-2 justify-center items-center">
         <div className="px-2 py-1 flex items-center justify-center w-full">
           <span className="text-white">{currentUserMail}</span>

@@ -1,21 +1,15 @@
+/* Global import */
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+/* Scoped imports */
+/* Local imports */
 import LargeDropdown from '@/components/home/LargeDropdown';
 import { getUsersRoute } from '@/utils/ApiRoutes';
-
-interface User {
-  _id: string;
-  username: string;
-  email: string;
-  avatarImage: string;
-}
+import User from '@/types/User';
 
 interface Props {
   currentUser: User;
-  isMenuOpen: boolean;
-  closeMenu: () => void;
   isLargeDropdownOpen: boolean;
-  closeLargeDropdown: () => void;
   largeDropdownRef: React.RefObject<HTMLDivElement>;
   toggleLargeDropdown: () => void;
   setCurrentChat: (user: string) => void;
@@ -24,10 +18,7 @@ interface Props {
 
 const LargeLayout: React.FC<Props> = ({
   currentUser,
-  isMenuOpen,
-  closeMenu,
   isLargeDropdownOpen,
-  closeLargeDropdown,
   largeDropdownRef,
   toggleLargeDropdown,
   setCurrentChat,
@@ -67,7 +58,7 @@ const LargeLayout: React.FC<Props> = ({
       <div className="flex w-full justify-center items-center">
         <div className="border-t-2 border-gray-700 w-11/12"/>
       </div>
-      <div className="p-4 flex items-center justify-between">
+      <div className="px-4 py-2 flex items-center justify-between">
         <div className="relative w-full">
           <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-800 w-full rounded-md p-2" onClick={toggleLargeDropdown}>
             <Image src={`data:image/svg+xml;base64,${currentUser.avatarImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" width={50} height={50}/>
