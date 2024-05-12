@@ -1,9 +1,13 @@
 "use client"
 
 import React, { useState } from 'react';
+import axios from 'axios';
 import Image from 'next/image';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import TextInput from '@/components/TextInput';
 import PasswordInput from '@/components/PasswordInput';
+import { registerRoute } from '@/utils/ApiRoutes';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -12,9 +16,28 @@ const Register: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleRegister = () => {
-    // Perform registration functionality here
-    console.log("Creating account with username:", username, "email:", email, "and password:", password);
+  const handleRegister = async () => {
+    try {
+      const response = await axios.post(registerRoute, {
+        username,
+        email,
+        password,
+      });
+
+      if (response.data.status === true) {
+        toast.success('Email confirmation sent! Please check your email.');
+        // Clear form fields after successful registration
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (error) {
+      console.error('Error registering:', error);
+      toast.error('An error occurred. Please try again later.');
+    }
   };
 
   const toggleShowPassword = () => {
@@ -57,6 +80,7 @@ const Register: React.FC = () => {
           Already have an account? <a href="/login" className="text-fuchsia-400">Login here</a>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
