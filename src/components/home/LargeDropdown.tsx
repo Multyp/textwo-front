@@ -22,7 +22,7 @@ interface ConfirmationModalProps {
 interface UserDashboardProps {
   selectedMenu: string;
   onMenuSelect: (menu: string) => void;
-  onClose: () => void; // Add onClose prop
+  onClose: () => void;
 }
 
 const UserDashboard: React.FC<UserDashboardProps> = ({ selectedMenu, onMenuSelect, onClose }) => { // Accept onClose prop

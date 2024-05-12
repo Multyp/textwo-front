@@ -38,7 +38,7 @@ export default function ChatContainer({ currentChat, socket }: { currentChat: st
     const data = await JSON.parse(
       localStorage.getItem("token") as string
     );
-    socket.emit("send-msg", {
+    socket.current.emit("send-msg", {
       to: currentChat,
       from: data._id,
       msg,
