@@ -29,7 +29,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ selectedMenu, onMenuSelec
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
       <div className="flex justify-between w-96 bg-white rounded-lg p-4">
-        <button className="absolute top-0 right-0 m-2 text-gray-600 hover:text-gray-900" onClick={onClose}> {/* Close button */}
+        <button className="top-0 right-0 m-2 text-gray-600 hover:text-gray-900" onClick={onClose}> {/* Close button */}
           <FontAwesomeIcon icon={faTimes} className="h-5 w-5" />
         </button>
         <div>
