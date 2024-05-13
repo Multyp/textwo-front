@@ -20,8 +20,8 @@ interface Props {
   mobileDropdownRef: React.RefObject<HTMLDivElement>;
   menuRef: React.RefObject<HTMLDivElement>;
   toggleMobileDropdown: () => void;
-  setCurrentChat: (user: string) => void;
-  currentChat: string | undefined;
+  setCurrentChat: (user: User) => void;
+  currentChat: User | undefined;
 }
 
 const MobileLayout: React.FC<Props> = ({
@@ -52,8 +52,8 @@ const MobileLayout: React.FC<Props> = ({
   }, [currentUser._id]);
 
   const handleUserClick = (user: User) => {
-    if (user._id !== currentChat) {
-      setCurrentChat(user._id);
+    if (user !== currentChat) {
+      setCurrentChat(user);
     }
   };
 

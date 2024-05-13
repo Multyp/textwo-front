@@ -1,13 +1,15 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import { sendMessageRoute, recieveMessageRoute } from '@/utils/ApiRoutes';
 import { Socket } from 'socket.io-client';
 import Msg from '@/types/Messages';
+import User from '@/types/User';
 
-export default function ChatContainer({ currentChat, socket }: { currentChat: string, socket: Socket }) {
+export default function ChatContainer({ currentContact, socket }: { currentContact: User, socket: Socket }) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [arrivalMessage, setArrivalMessage] = useState<Msg | null>(null);
@@ -18,34 +20,34 @@ export default function ChatContainer({ currentChat, socket }: { currentChat: st
       const data = await JSON.parse(localStorage.getItem("token") as string);
       const response = await axios.post(recieveMessageRoute, {
         from: data._id,
-        to: currentChat,
+        to: currentContact._id,
       });
       setMessages(response.data);
     };
     fetchData();
-  }, [currentChat]);
+  }, [currentContact]);
 
   useEffect(() => {
-    const getCurrentChat = async () => {
-      if (currentChat) {
+    const getcurrentContact = async () => {
+      if (currentContact) {
         await JSON.parse(localStorage.getItem("token") as string)._id;
       }
     };
-    getCurrentChat();
-  }, [currentChat]);
+    getcurrentContact();
+  }, [currentContact]);
 
   const handleSendMsg = async (msg: string) => {
     const data = await JSON.parse(
       localStorage.getItem("token") as string
     );
     socket.current.emit("send-msg", {
-      to: currentChat,
+      to: currentContact._id,
       from: data._id,
       msg,
     });
     await axios.post(sendMessageRoute, {
       from: data._id,
-      to: currentChat,
+      to: currentContact._id,
       message: msg,
     });
 
@@ -73,8 +75,9 @@ export default function ChatContainer({ currentChat, socket }: { currentChat: st
 
   return (
     <div className="flex flex-col h-full max-h-screen">
-      <div className="px-8 py-4 flex justify-center items-center text-gray-200 border-b-2 border-gray-500">
-        Your chat
+      <div className="px-8 py-4 flex justify-center items-center border-b-2 border-gray-500 gap-2">
+        <Image src={`data:image/svg+xml;base64,${currentContact.avatarImage}`} alt="User Avatar" className="w-8 h-8 rounded-full" width={50} height={50}/>
+        <span className="text-gray-200">{currentContact.username}</span>
       </div>
       <div className="px-8 py-4 flex-grow justify-end overflow-scroll">
         {messages.map((message) => (

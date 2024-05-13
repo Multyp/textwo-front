@@ -22,7 +22,7 @@ const Home: React.FC = () => {
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const [isLargeDropdownOpen, setIsLargeDropdownOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
-  const [currentChat, setCurrentChat] = useState<string | undefined>(undefined);
+  const [currentChat, setCurrentChat] = useState<User | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const isLoggedIn = !!localStorage.getItem('token');
   const menuRef = useRef<HTMLDivElement>(null);
@@ -151,7 +151,7 @@ const Home: React.FC = () => {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-            <ChatContainer currentChat={currentChat} socket={socket as any} />
+            <ChatContainer currentContact={currentChat} socket={socket as any} />
           )}
         </div>
       </div>

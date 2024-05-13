@@ -12,8 +12,8 @@ interface Props {
   isLargeDropdownOpen: boolean;
   largeDropdownRef: React.RefObject<HTMLDivElement>;
   toggleLargeDropdown: () => void;
-  setCurrentChat: (user: string) => void;
-  currentChat: string | undefined;
+  setCurrentChat: (user: User) => void;
+  currentChat: User | undefined;
 }
 
 const LargeLayout: React.FC<Props> = ({
@@ -40,8 +40,8 @@ const LargeLayout: React.FC<Props> = ({
   }, [currentUser._id]);
 
   const handleUserClick = (user: User) => {
-    if (user._id !== currentChat) {
-      setCurrentChat(user._id);
+    if (user !== currentChat) {
+      setCurrentChat(user);
     }
   };
 
