@@ -77,7 +77,7 @@ export default function ChatContainer({ currentContact, socket }: { currentConta
   }, [messages]);
 
   return (
-    <div className="flex flex-col h-full max-h-screen">
+    <div className="flex flex-col h-[100dvh] max-h-[100dvh]">
       <div className="px-8 py-4 flex justify-center items-center border-b-2 border-gray-500 gap-2">
         <Image src={`data:image/svg+xml;base64,${currentContact.avatarImage}`} alt="User Avatar" className="w-8 h-8 rounded-full" width={50} height={50}/>
         <span className="text-gray-200">{currentContact.username}</span>
