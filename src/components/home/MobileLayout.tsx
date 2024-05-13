@@ -58,7 +58,7 @@ const MobileLayout: React.FC<Props> = ({
   };
 
   return (
-    <div ref={menuRef} className={`bg-gray-900 h-screen w-64 absolute top-0 left-0 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
+    <div ref={menuRef} className={`bg-gray-900 h-[100dvh] w-64 absolute top-0 left-0 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
       <div className="flex flex-col justify-end h-full">
         <div className="mt-2 px-4 h-12 w-full flex items-center justify-between text-white">
             Your chats

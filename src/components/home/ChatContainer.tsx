@@ -82,7 +82,7 @@ export default function ChatContainer({ currentContact, socket }: { currentConta
         <Image src={`data:image/svg+xml;base64,${currentContact.avatarImage}`} alt="User Avatar" className="w-8 h-8 rounded-full" width={50} height={50}/>
         <span className="text-gray-200">{currentContact.username}</span>
       </div>
-      <div className="px-8 py-4 flex-grow justify-end overflow-scroll">
+      <div className="px-8 py-4 flex-grow justify-end overflow-scroll no-scrollbar">
         {messages.map((message) => (
           <div
             key={uuidv4()}
