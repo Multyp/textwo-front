@@ -1,10 +1,13 @@
 "use client"
 
+/* Global imports */
 import React, { useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+/* Scoped imports */
+/* LOcak imports */
 import TextInput from '@/components/TextInput';
 import PasswordInput from '@/components/PasswordInput';
 import { registerRoute } from '@/utils/ApiRoutes';

@@ -1,11 +1,14 @@
 "use client"
 
+/* Global imports */
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
-import { sendMessageRoute, recieveMessageRoute } from '@/utils/ApiRoutes';
 import { Socket } from 'socket.io-client';
+import axios from 'axios';
+/* Scoped imports */
+/* Local imports */
+import { sendMessageRoute, recieveMessageRoute } from '@/utils/ApiRoutes';
 import Msg from '@/types/Messages';
 import User from '@/types/User';
 

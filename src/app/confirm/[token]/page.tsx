@@ -1,16 +1,19 @@
 "use client"
 
+/* Global import */
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
 import { ToastContainer, ToastPosition, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+/* Scoped imports */
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faTimesCircle, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+/*Local imports */
 
-library.add(faCheckCircle, faTimesCircle, faCircleNotch); // Add icons to library
+library.add(faCheckCircle, faTimesCircle, faCircleNotch);
 
 const EmailConfirmation = ({ params }: { params: { token: string } }) => {
   const [confirmationStatus, setConfirmationStatus] = useState<"pending" | "confirmed" | "error">("pending");
