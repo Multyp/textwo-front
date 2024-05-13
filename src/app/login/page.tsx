@@ -1,7 +1,7 @@
 "use client"
 
 /* Global imports */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -17,6 +17,8 @@ const Login: React.FC = () => {
   const navigation = useRouter();
   const [values, setValues] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const isLoggedIn = !!localStorage.getItem('token');
+
   const toastOptions = {
     position: 'bottom-right' as ToastPosition,
     autoClose: 8000,
@@ -38,6 +40,12 @@ const Login: React.FC = () => {
     }
     return true;
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigation.push('/home');
+    }
+  }, [isLoggedIn, navigation]);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
