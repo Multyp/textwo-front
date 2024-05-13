@@ -50,7 +50,23 @@ const LargeLayout: React.FC<Props> = ({
       <div className="p-4 flex-grow">
         {users.map(user => (
           <div key={user._id} className="hover:bg-gray-800 p-2 cursor-pointer rounded-md flex items-center" onClick={() => handleUserClick(user)}>
-            <Image src={`data:image/svg+xml;base64,${user.avatarImage}`} alt={`${user.username}'s Avatar`} className="w-10 h-10 rounded-full" width={50} height={50}/>
+            {user.avatarImage !== "" ? (
+              <Image
+                src={`data:image/svg+xml;base64,${user.avatarImage}`}
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full"
+                width={50}
+                height={50}
+              />
+            ) : (
+              <Image
+                src="/blank-profile-picture.png"
+                alt="Blank Profile Picture"
+                className="w-8 h-8 rounded-full"
+                width={50}
+                height={50}
+              />
+            )}
             <span className="text-white ml-2">{user.username}</span>
           </div>
         ))}
@@ -61,7 +77,23 @@ const LargeLayout: React.FC<Props> = ({
       <div className="px-4 py-2 flex items-center justify-between">
         <div className="relative w-full">
           <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-800 w-full rounded-md p-2" onClick={toggleLargeDropdown}>
-            <Image src={`data:image/svg+xml;base64,${currentUser.avatarImage}`} alt="User Avatar" className="w-10 h-10 rounded-full" width={50} height={50}/>
+            {currentUser.avatarImage !== "" ? (
+              <Image
+                src={`data:image/svg+xml;base64,${currentUser.avatarImage}`}
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full"
+                width={50}
+                height={50}
+              />
+            ) : (
+              <Image
+                src="/blank-profile-picture.png"
+                alt="Blank Profile Picture"
+                className="w-8 h-8 rounded-full"
+                width={50}
+                height={50}
+              />
+            )}
             <span className="text-white">{currentUser.username}</span>
           </div>
           {isLargeDropdownOpen && (
