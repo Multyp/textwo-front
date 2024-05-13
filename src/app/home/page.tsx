@@ -24,16 +24,23 @@ const Home: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const [currentChat, setCurrentChat] = useState<User | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
-  const isLoggedIn = !!localStorage.getItem('token');
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const menuRef = useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const largeDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      router.push('/login');
-    }
-  }, [isLoggedIn, router]);
+    const checkLoggedIn = () => {
+      const loggedIn = !!localStorage.getItem('token');
+      if (!loggedIn) {
+        router.push('/login');
+      } else {
+        setIsLoggedIn(true);
+      }
+    };
+
+    checkLoggedIn();
+  }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,7 +130,7 @@ const Home: React.FC = () => {
 
   if (isLoggedIn) {
     return (
-      <div className="min-h-screen flex flex-row">
+      <div className="h-full flex flex-row">
         <MobileLayout
           currentUser={currentUser as User}
           isMenuOpen={isMenuOpen}
@@ -144,7 +151,7 @@ const Home: React.FC = () => {
           currentChat={currentChat}
           setCurrentChat={setCurrentChat}
         />
-        <div className="flex-1 bg-gray-700 w-full">
+        <div className="flex-1 bg-gray-700 w-full h-full">
           <div className={`h-16 w-16 flex items-center justify-center cursor-pointer ${isMenuOpen ? "hidden" : "absolute"} md:hidden`} onClick={toggleMenu}>
             <FontAwesomeIcon icon={faBars} className="!h-6 w-6 text-white" />
           </div>

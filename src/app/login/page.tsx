@@ -17,7 +17,6 @@ const Login: React.FC = () => {
   const navigation = useRouter();
   const [values, setValues] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const isLoggedIn = !!localStorage.getItem('token');
 
   const toastOptions = {
     position: 'bottom-right' as ToastPosition,
@@ -26,6 +25,13 @@ const Login: React.FC = () => {
     draggable: true,
     theme: "dark",
   };
+
+  useEffect(() => {
+    const isLoggedIn = !!localStorage.getItem('token');
+    if (isLoggedIn) {
+      navigation.push('/home');
+    }
+  }, [navigation]);
 
   const toggleShowPassword = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -40,12 +46,6 @@ const Login: React.FC = () => {
     }
     return true;
   };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigation.push('/home');
-    }
-  }, [isLoggedIn, navigation]);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -77,12 +77,12 @@ const Login: React.FC = () => {
           Textwo
         </h2>
         <form onSubmit={handleLogin}>
-          <TextInput label="Username" type="text" id="username" value={values.username} onChange={(e) => setValues({ username: e.target.value, password: values.password })} />
+          <TextInput label="Username" type="text" id="username" value={values.username} onChange={(e) => setValues({ ...values, username: e.target.value })} />
           <PasswordInput
             label="Password"
             id="password"
             value={values.password}
-            onChange={(e) => setValues({ username: values.username, password: e.target.value})}
+            onChange={(e) => setValues({ ...values, password: e.target.value })}
             showPassword={showPassword}
             toggleShowPassword={toggleShowPassword}
           />
