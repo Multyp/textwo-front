@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faTimesCircle, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { confirmRoute } from "@/utils/ApiRoutes";
 /*Local imports */
 
 library.add(faCheckCircle, faTimesCircle, faCircleNotch);
@@ -22,7 +23,7 @@ const EmailConfirmation = ({ params }: { params: { token: string } }) => {
   useEffect(() => {
     const confirmEmail = async () => {
       try {
-        const response = await axios.get(`/api/confirm/${params.token}`);
+        const response = await axios.get(`${confirmRoute}/${params.token}`);
         if (response.data.msg === "Email confirmed successfully") {
           setConfirmationStatus("confirmed");
           setTimeout(() => {
